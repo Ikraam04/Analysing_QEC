@@ -86,7 +86,8 @@ x_stabilizer_matrix = [
 from itertools import combinations
 
 def is_degenerate(error_vector, stabilizer_matrix=x_stabilizer_matrix):
-    if not error_vector.any():
+    error_vector = np.array(error_vector)
+    if np.all(error_vector == 0):
         return False
     for r in range(len(stabilizer_matrix) + 1):
         for combo in combinations(stabilizer_matrix, r):
@@ -169,8 +170,8 @@ def simulate_circuit(qc,LUT):
     else:
         res = logical
     #
-    if is_degenerate(np.array(res)):
-        return (True,0)
+    # if is_degenerate(np.array(res)):
+    #     return (True,0)
 
     if_error = any(res)
 
@@ -194,33 +195,30 @@ if __name__ == "__main__":
 
     # --- Parameters ---
     n = 250  # number of trials per p
-    p_values = np.arange(0.0001, 0.2, 0.005)
+   # p_values = np.arange(0.0001, 0.2, 0.005)
    # p_values = np.arange(0.001, 0.4, 0.01)
-   # p_values = np.linspace(0.001, 0.5, 40)
+    p_values = np.linspace(0.001, 0.5, 40)
 
-    # --- Generate the LUT once and share it ---
     LUT = generate_colour_code_lut()
-
-    # --- Concurrent execution ---
     results = []
-    with ProcessPoolExecutor(max_workers = 13) as executor:
+    with ProcessPoolExecutor(max_workers = 6) as executor:
         futures = [executor.submit(run_trials_for_p, p, n, LUT) for p in p_values]
         for future in futures:
             results.append(future.result())
 
     import numpy as np
-    # --- Sort and unpack ---
     results.sort()  # sort by p-value
     ps, qbers, degen_ratio = zip(*results)
-   # np.save("color_degen_comp.npy", np.array(qbers))
-    #np.save("degen_ratios_color_2.npy", np.array(degen_ratio))
+
+   # np.save("color.npy", qbers)
+   # np.save("color_nondegen_comp.npy", np.array(qbers))
+    #np.save("degen_ratios_color.npy", np.array(degen_ratio))
 
     import matplotlib.pyplot as plt
-    # --- Display ---
+
     for p, qber, degen in results:
         print(f"p = {p:.5f} → QBER = {qber:.5f}, degen ratio: {degen:.5f}")
 
-    # --- Plot ---
     plt.plot(ps, qbers, marker='o', ms=3)
     plt.xlabel('Depolarizing Probability (p)')
     plt.ylabel('QBER')

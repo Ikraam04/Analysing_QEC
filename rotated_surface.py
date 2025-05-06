@@ -78,9 +78,9 @@ x_stabilizer_matrix = [
 from itertools import combinations
 
 def is_degenerate(error_vector, stabilizer_matrix=x_stabilizer_matrix):
-    if not error_vector.any():
+    error_vector = np.array(error_vector)
+    if np.all(error_vector == 0):
         return False
-
     for r in range(len(stabilizer_matrix) + 1):
         for combo in combinations(stabilizer_matrix, r):
             total = np.zeros(len(error_vector), dtype=int)
@@ -155,7 +155,7 @@ def rotated_surface(p=None):
 def simulate_rotated_surface_code(p, LUT):
     qc = rotated_surface(p)
 
-    simulator = global_simulator  # Ensure this is defined globally
+    simulator = global_simulator
     result = simulator.run(qc, shots=1).result()
     measurement = result.get_counts()
 
@@ -167,19 +167,17 @@ def simulate_rotated_surface_code(p, LUT):
     x_stab_str  = outcome_str[15:][::-1]
 
 
-        # 5) Build the LUT key from the concatenation of x_stab and z_stab.
     for_Lut = x_stab_str + z_stab_str
     for_Lut = int(for_Lut, 2)
 
-        # 6) Apply correction if the key is found in the LUT.
     if for_Lut in LUT:
         corrected_logical = apply_correction(logical, LUT[for_Lut])
     else:
         corrected_logical = logical
 
 
-    if is_degenerate(np.array(corrected_logical)):
-        return (True,0)
+    # if is_degenerate(np.array(corrected_logical)):
+    #     return (True,0)
 
     if_error = any(corrected_logical)  # returns 1 if error, else 0
     return (False, if_error)
@@ -206,9 +204,9 @@ if __name__ == "__main__":
     import matplotlib.pyplot as plt
     from concurrent.futures import ProcessPoolExecutor
     n = 250
-    p_values = np.arange(0.0001, 0.2, 0.005)
+   # p_values = np.arange(0.0001, 0.2, 0.005)
     #p_values = np.arange(0.001, 0.4, 0.01)
-   # p_values = np.linspace(0.001, 0.5, 40)
+    p_values = np.linspace(0.001, 0.5, 40)
 
     LUT = generate_rotated_surface_code_LUT()
 
@@ -224,16 +222,15 @@ if __name__ == "__main__":
     # --- Sort and unpack results ---
     results.sort(key=lambda x: x[0])
     ps, qbers, degen_ratio = zip(*results)
-
-    # np.save("rotated_degen_comp.npy", np.array(qbers))
-    # np.save("degen_ratios_rotated.npy", np.array(degen_ratio))
+    #np.save("rotated.npy", qbers)
+    #np.save("rotated_degen_comp.npy", np.array(qbers))
+    #np.save("degen_ratios_rotated.npy", np.array(degen_ratio))
 
 
     for p, qber, degen in results:
         print(f"p = {p:.5f} → QBER = {qber:.5f}, Degen ratio: {degen}")
 
 
-    # --- Plot QBER vs. p ---
     plt.plot(ps, qbers, marker='o', ms=3)
     plt.xlabel('Depolarizing Probability (p)')
     plt.ylabel('QBER')
