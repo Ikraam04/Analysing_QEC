@@ -59,13 +59,13 @@ please make sure each file is is in the same directory before running, as some f
 
 When you run them it may take a while as i do ALOT of runs (**n**), if you wish to change this go ahead but be aware of really inconsistent outputs.
 
-Under the **main** heading, when the code is executed, the graphs should be displayed and the numerical outputs should be saved in a *.npy* file, once you run each file, each with its own *.npy* file, you can go to **plots.py** and run either of the functions with input parameter of the .npy files and some colors. The variables you want to save are highlighted in the code but they want are:
+Under the **main** heading, where the code is executed, the graphs should be displayed and the numerical outputs should be saved in a *.npy* file, once you run and save each file you can go to **plots.py** and run either of the functions with input parameters as the .npy files and some colors. The variables you want to save are highlighted in the code but to be clear they are:
 
 ***qbers*** - array that stores the QBER values (indexed across probability)
 
 ***degen_ratio*** - Array that stores degeneracy ratios (0 when disabled, again, indexed across probability)
 
-If you change probability values (***p_values***) be sure to change it in **plots.py** as well.
+If you change probability values (***p_values***) be sure to change it in the rest of the files and **plots.py** (that is, if you want to visualise all of them together) 
 
 I have tried to make this as simple and as customizable as possible, but as one can imagine, they're kind of a trade-off with eachother.
 
