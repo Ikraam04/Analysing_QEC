@@ -170,9 +170,7 @@ def simulate_circuit(qc,LUT):
     else:
         res = logical
 
-    """
-    uncomment this to enable degeneracy!
-    """
+
     #
     # if is_degenerate(np.array(res)):
     #     return (True,0)
@@ -196,7 +194,10 @@ def run_trials_for_p(p,n, LUT):
     return (p, avg_error, degen_ratio)
 
 if __name__ == "__main__":
-
+    """
+    Feel free to change these just make sure you change p_values across the other files as well (if your plotting to compare that is)
+    Change n if your computer is pretty slow, it may take a while to run.
+    """
     # --- Parameters ---
     n = 2500  # number of trials per p
     p_values = np.arange(0.0001, 0.2, 0.005)
@@ -215,7 +216,7 @@ if __name__ == "__main__":
     ps, qbers, degen_ratio = zip(*results)
 
     """
-    save what you want, where you want
+    save files - make sure qbers & degen_ratios are saved
     """
     np.save("color.npy", qbers)
     #np.save("color_nondegen_comp.npy", np.array(qbers))

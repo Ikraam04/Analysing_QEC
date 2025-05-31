@@ -57,7 +57,15 @@ This is simulates the [[13,1,3]] surface code with stabilizers:
 
 please make sure each file is is in the same directory before running, as some functions are shared across them. as long as you have **qiskit** and **matplotlib** installed you should be able to run them. I do utilize multiprocessing libraries (concurrent futures) to parrallelize the code.
 
-Under the **main** heading, when the code is executed, the graphs should be displayed and the numerical outputs should be saved in a *.npy* file, once you run each file, each with its own *.npy* file, you can go to **plots.py** and run either of the functions with input parameter of the .npy files and some colors.
+When you run them it may take a while as i do ALOT of runs (**n**), if you wish to change this go ahead but be aware of really inconsistent outputs.
+
+Under the **main** heading, when the code is executed, the graphs should be displayed and the numerical outputs should be saved in a *.npy* file, once you run each file, each with its own *.npy* file, you can go to **plots.py** and run either of the functions with input parameter of the .npy files and some colors. The variables you want to save are highlighted in the code but they want are:
+
+**qbers** - array that stores the QBER values (indexed across probability)
+
+**degen_ratio** - Array that stores degeneracy ratios (0 when disabled, again, indexed across probability)
+
+If you change probability values (**p_values**) be sure to change it in **plots.py** as well.
 
 I have tried to make this as simple and as customizable as possible, but as one can imagine, they're kind of a trade-off with eachother.
 
@@ -66,3 +74,7 @@ Feel free to mess around with it, just make sure file names and variable names a
 To enable **degenracy** just uncomment the code within the **simulate_circuit** function.
 
 **test.py** contains the raw surface code except only with a single run, run it to understand what the functions and how the surface code corrects errors (the circuit is written out in full in this script). This is essential to understand before running other scripts (alot of the functions here are implemented in other files as well).
+
+## How a typical run should go
+
+1) run each file (view outputs

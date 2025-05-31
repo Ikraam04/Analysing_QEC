@@ -222,7 +222,10 @@ def run_trials_for_p(p,n, LUT):
 
 
 if __name__ == "__main__":
-
+    """
+    Feel free to change these just make sure you change p_values across the other files as well (if your plotting to compare that is)
+    Change n if your computer is pretty slow, it may take a while to run.
+    """
     n = 2500  # number of trials per p
    # n = 2500
     p_values = np.arange(0.0001, 0.2, 0.005)
@@ -245,7 +248,7 @@ if __name__ == "__main__":
     import numpy as np
 
     """
-    save it wherever
+    save files - make sure qbers & degen_ratios are saved
     """
     np.save("surface.npy",qbers)
     #np.save('surface_nondegen_comp.npy', np.array(qbers))

@@ -109,6 +109,8 @@ def generate_single_qubit_lut():
     return lut
 
 
+
+
 def apply_correction(logical, correction_ops):
     """
     Applies the correction
@@ -123,6 +125,10 @@ def apply_correction(logical, correction_ops):
 
     return corrected
 
+"""
+defining classical (store result) and quantum registers (compute result)
+"""
+
 data = QuantumRegister(13, 'data')
 ar_x= QuantumRegister(6, 'ar_x')
 ar_z = QuantumRegister(6, 'ar_z')
@@ -131,8 +137,10 @@ cl_z = ClassicalRegister(6, 'cl_z')
 cl_data= ClassicalRegister(13, 'cl_data')
 
 qc = QuantumCircuit(data,ar_z, ar_x, cl_x, cl_z, cl_data)
-#everythng is |0> though we have to add phase to our code space
 
+"""
+add out |0> to our code space
+"""
 qc.h(ar_x[0])
 qc.cx(ar_x[0], data[0])
 qc.cx(ar_x[0], data[1])
@@ -263,13 +271,17 @@ qc.measure(data, cl_data)
 
 LUT = generate_single_qubit_lut()
 
+"""
+uncomment and run to see what LUT looks like
+"""
+
 # for axis in ['Z', 'X', 'Y']:
 #     for idx in range(13):  # from 0 to 12
 #         for key, value in LUT.items():
 #             if value[0] == (idx, axis):
 #                 print(f"{key} ({idx},{axis})")
 
-#uncomment above if you want to see a pretty print of the LUT!
+
 
 """
 don't change a lot here as this is how syndrome extraction works

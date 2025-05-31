@@ -208,6 +208,10 @@ if __name__ == "__main__":
     import numpy as np
     import matplotlib.pyplot as plt
     from concurrent.futures import ProcessPoolExecutor
+    """
+    Feel free to change these just make sure you change p_values across the other files as well (if your plotting to compare that is)
+    Change n if your computer is pretty slow, it may take a while to run.
+    """
     n = 2500
     p_values = np.arange(0.0001, 0.2, 0.005)
     #p_values = np.arange(0.001, 0.4, 0.01)
@@ -228,7 +232,7 @@ if __name__ == "__main__":
     results.sort(key=lambda x: x[0])
     ps, qbers, degen_ratio = zip(*results)
     """
-    save what you want, where you want, just make sure your consistent
+    save files - make sure qbers & degen_ratios are saved
     """
     np.save("rotated.npy", qbers)
     #np.save("rotated_nondegen_comp.npy", np.array(qbers))
