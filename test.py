@@ -1,11 +1,8 @@
 from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit
 from qiskit_aer import AerSimulator
-import matplotlib.pyplot as plt
-from my_surface import generate_single_qubit_lut, apply_correction, is_degenerate
 import numpy as np
 from itertools import combinations
-
-
+from my_color import depolarizing_error
 
 
 x_stabilizer_matrix = [
@@ -153,7 +150,7 @@ qc.cx(ar_x[5], data[12])
 qc.h(ar_x[5])
 
 """
-Depolarizing noise
+Depolarizing noise - add error here or call depolrzin_noise() f
 """
 qc.x(data[6])
 
@@ -240,7 +237,6 @@ qc.cx(data[12], ar_z[5])
 qc.measure(ar_z, cl_z)
 
 qc.measure(data, cl_data)
-# qc.x().c_if()....
 
 LUT = generate_single_qubit_lut()
 
@@ -250,28 +246,30 @@ LUT = generate_single_qubit_lut()
 #             if value[0] == (idx, axis):
 #                 print(f"{key} ({idx},{axis})")
 
+#uncomment above if you want to see a pretty print of the LUT!
 
 simulator = AerSimulator()
 result = simulator.run(qc, shots=1).result()
 measurement = result.get_counts()
 #order of measurements is c_n .. c_0
+
+#manipulating output
 logical = list(measurement.keys())[0][:13][::-1]
 logical = [int(i) for i in logical]
 z_stab = list(measurement.keys())[0][14:20][::-1]
 x_stab = list(measurement.keys())[0][21::][::-1]
 
 
-print("syndrome:",x_stab + z_stab)
+print("syndrome:",x_stab + z_stab) #syndrome
 for_Lut = x_stab + z_stab
-#manipulating output
 print("data before correction: ",logical)
 if for_Lut in LUT:
-    print("correction applied: ",LUT[for_Lut])
+    print("correction applied: ",LUT[for_Lut]) #correction applied
     res = apply_correction(logical, LUT[for_Lut])
 else:
     res = logical
 
-if(is_degenerate(res)):
+if(is_degenerate(res)): #check if its degenerate
     print("is degen, no error: ",res)
 elif any(res):
     print("Error", res)

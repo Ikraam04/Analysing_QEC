@@ -14,7 +14,7 @@ def generate_colour_code_lut():
     NUM_QUBITS = 7
     NUM_STABILIZERS = 6
 
-    # X stabilizers (0 to 2)
+
     x_stabilizers = {
         0: [0],
         1: [0, 2],
@@ -25,7 +25,6 @@ def generate_colour_code_lut():
         6: [2],
     }
 
-    # Z stabilizers (3 to 5)
     z_stabilizers = {
         0: [3],
         1: [3, 5],
@@ -58,7 +57,6 @@ def generate_colour_code_lut():
             syn = syndrome_for_error(q, pauli)
             syndrome_str = int(''.join(str(b) for b in syn),2)
 
-            # Only store the correction if not already in the LUT (lowest weight wins)
             if syndrome_str not in lut:
                 lut[syndrome_str] = [(q, pauli)]
 
@@ -71,7 +69,6 @@ def apply_correction(logical, correction_ops):
     for qubit, pauli in correction_ops:
         if pauli in ['X', 'Y']:
             corrected[qubit] ^= 1
-        #we do not care about Z as all our qubits are defined in logical state |0_L>
     return corrected
 
 LUT = generate_colour_code_lut()
@@ -194,14 +191,14 @@ def run_trials_for_p(p,n, LUT):
 if __name__ == "__main__":
 
     # --- Parameters ---
-    n = 250  # number of trials per p
-   # p_values = np.arange(0.0001, 0.2, 0.005)
+    n = 2500  # number of trials per p
+    p_values = np.arange(0.0001, 0.2, 0.005)
    # p_values = np.arange(0.001, 0.4, 0.01)
-    p_values = np.linspace(0.001, 0.5, 40)
+   # p_values = np.linspace(0.001, 0.5, 40)
 
     LUT = generate_colour_code_lut()
     results = []
-    with ProcessPoolExecutor(max_workers = 6) as executor:
+    with ProcessPoolExecutor(max_workers = 13) as executor:
         futures = [executor.submit(run_trials_for_p, p, n, LUT) for p in p_values]
         for future in futures:
             results.append(future.result())
@@ -210,8 +207,8 @@ if __name__ == "__main__":
     results.sort()  # sort by p-value
     ps, qbers, degen_ratio = zip(*results)
 
-   # np.save("color.npy", qbers)
-   # np.save("color_nondegen_comp.npy", np.array(qbers))
+    np.save("color.npy", qbers)
+    #np.save("color_nondegen_comp.npy", np.array(qbers))
     #np.save("degen_ratios_color.npy", np.array(degen_ratio))
 
     import matplotlib.pyplot as plt

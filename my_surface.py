@@ -219,18 +219,18 @@ def run_trials_for_p(p,n, LUT):
 
 if __name__ == "__main__":
 
-    n = 250  # number of trials per p
+    n = 2500  # number of trials per p
    # n = 2500
-   # p_values = np.arange(0.0001, 0.2, 0.005)
+    p_values = np.arange(0.0001, 0.2, 0.005)
    # p_values = np.arange(0.01,1, 0.025)
-    p_values = np.linspace(0.001, 0.5, 40)
+   # p_values = np.linspace(0.001, 0.5, 40)
 
 
     LUT = generate_single_qubit_lut()
 
 
     results = []
-    with ProcessPoolExecutor(max_workers = 6) as executor:
+    with ProcessPoolExecutor(max_workers = 13) as executor:
         futures = [executor.submit(run_trials_for_p, p, n, LUT) for p in p_values]
         for future in futures:
             results.append(future.result())
@@ -239,8 +239,8 @@ if __name__ == "__main__":
     ps, qbers, degen_ratios = zip(*results)
 
     import numpy as np
-   # np.save("surface.npy",qbers)
-   # np.save('surface_nondegen_comp.npy', np.array(qbers))
+    np.save("surface.npy",qbers)
+    #np.save('surface_nondegen_comp.npy', np.array(qbers))
     #np.save('degen_ratios_surface_2.npy', np.array(degen_ratios))
 
     for p, qber, degen_ratio in results:

@@ -109,19 +109,19 @@ surface = np.load("surface.npy")
 rotated = np.load("rotated.npy")
 color = np.load("color.npy")
 
-#multi_plot(surface,rotated,color, name="QBER For Demo", p_val= p_values, legend_names=["Surfac","Rotated","Color"])
+multi_plot(surface,rotated,color, name="QBER For Demo", p_val= p_values, legend_names=["Surfac","Rotated","Color"])
 
-surface_nondegen = np.load("surface_nondegen_comp.npy")
-surface_degen = np.load("surface_degen_comp.npy")
-surface_ratio = np.load("degen_ratios_surface_2.npy")
-
-rotated_nondegen = np.load("rotated_nondegen_comp.npy")
-rotated_degen = np.load("rotated_degen_comp.npy")
-rotated_ratio = np.load("degen_ratios_rotated.npy")
-
-color_nondegen = np.load("color_nondegen_comp.npy")
-color_degen = np.load("color_degen_comp.npy")
-color_ratio = np.load("degen_ratios_color.npy")
+# surface_nondegen = np.load("surface_nondegen_comp.npy")
+# surface_degen = np.load("surface_degen_comp.npy")
+# surface_ratio = np.load("degen_ratios_surface_2.npy")
+#
+# rotated_nondegen = np.load("rotated_nondegen_comp.npy")
+# rotated_degen = np.load("rotated_degen_comp.npy")
+# rotated_ratio = np.load("degen_ratios_rotated.npy")
+#
+# color_nondegen = np.load("color_nondegen_comp.npy")
+# color_degen = np.load("color_degen_comp.npy")
+# color_ratio = np.load("degen_ratios_color.npy")
 
 cmap = plt.get_cmap("tab20").colors
 

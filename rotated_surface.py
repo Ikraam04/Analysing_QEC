@@ -203,10 +203,10 @@ if __name__ == "__main__":
     import numpy as np
     import matplotlib.pyplot as plt
     from concurrent.futures import ProcessPoolExecutor
-    n = 250
-   # p_values = np.arange(0.0001, 0.2, 0.005)
+    n = 2500
+    p_values = np.arange(0.0001, 0.2, 0.005)
     #p_values = np.arange(0.001, 0.4, 0.01)
-    p_values = np.linspace(0.001, 0.5, 40)
+   # p_values = np.linspace(0.001, 0.5, 40)
 
     LUT = generate_rotated_surface_code_LUT()
 
@@ -219,11 +219,11 @@ if __name__ == "__main__":
 
     import numpy as np
 
-    # --- Sort and unpack results ---
+
     results.sort(key=lambda x: x[0])
     ps, qbers, degen_ratio = zip(*results)
-    #np.save("rotated.npy", qbers)
-    #np.save("rotated_degen_comp.npy", np.array(qbers))
+    np.save("rotated.npy", qbers)
+    #np.save("rotated_nondegen_comp.npy", np.array(qbers))
     #np.save("degen_ratios_rotated.npy", np.array(degen_ratio))
 
 
