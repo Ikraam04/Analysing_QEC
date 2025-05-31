@@ -4,6 +4,10 @@ import numpy as np
 from itertools import combinations
 from my_color import depolarizing_error
 
+"""
+This is purely to demonstrate that the surface code works - essentially whats ran many times over in my_surface.py except it has more documentation
+and more printing statements so you can customize errors and see what's going on
+"""
 
 x_stabilizer_matrix = [
     np.array([1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0]),  # X1 X2 X4 → 0 1 3
@@ -15,6 +19,12 @@ x_stabilizer_matrix = [
 ]
 
 def is_degenerate(error_vector, stabilizer_matrix = x_stabilizer_matrix):
+    """
+    Checks for degeneracy by generating all possible stabilizers and seeing if they match the error that occured (after correction)
+    :param error_vector: your data qubits
+    :param stabilizer_matrix: the X-stabilizer matrix
+    :return: Boolean, if degenertae or not
+    """
     error_vector = np.array(error_vector)
     if np.all(error_vector == 0):
         return False
@@ -66,6 +76,12 @@ def generate_single_qubit_lut():
     }
 
     def syndrome_for_error(qubit, pauli):
+        """
+        Generate the syndrome depending on the error
+        :param qubit:
+        :param pauli:
+        :return:
+        """
         syndrome = [0] * NUM_STABILIZERS
         if pauli == 'X':
             for s in z_stabilizers.get(qubit, []):
@@ -94,6 +110,12 @@ def generate_single_qubit_lut():
 
 
 def apply_correction(logical, correction_ops):
+    """
+    Applies the correction
+    :param logical: our data qubits
+    :param correction_ops: the correction pauli op
+    :return: corrected vector
+    """
     corrected = logical.copy()
     for qubit, pauli in correction_ops:
         if pauli in ['X', 'Y']:
@@ -150,7 +172,8 @@ qc.cx(ar_x[5], data[12])
 qc.h(ar_x[5])
 
 """
-Depolarizing noise - add error here or call depolrzin_noise() f
+Depolarizing noise - add error here or call depolrzin_noise() 
+feel free to change
 """
 qc.x(data[6])
 
@@ -248,6 +271,10 @@ LUT = generate_single_qubit_lut()
 
 #uncomment above if you want to see a pretty print of the LUT!
 
+"""
+don't change a lot here as this is how syndrome extraction works
+"""
+
 simulator = AerSimulator()
 result = simulator.run(qc, shots=1).result()
 measurement = result.get_counts()
@@ -259,7 +286,11 @@ logical = [int(i) for i in logical]
 z_stab = list(measurement.keys())[0][14:20][::-1]
 x_stab = list(measurement.keys())[0][21::][::-1]
 
+"""
+so you can see outputs
+"""
 
+#output the data
 print("syndrome:",x_stab + z_stab) #syndrome
 for_Lut = x_stab + z_stab
 print("data before correction: ",logical)
@@ -268,7 +299,6 @@ if for_Lut in LUT:
     res = apply_correction(logical, LUT[for_Lut])
 else:
     res = logical
-
 if(is_degenerate(res)): #check if its degenerate
     print("is degen, no error: ",res)
 elif any(res):

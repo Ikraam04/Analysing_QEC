@@ -8,7 +8,10 @@ from qiskit.visualization.timeline.types import DataTypes
 from qiskit_aer import AerSimulator
 import matplotlib.pyplot as plt
 
-g_simulator = AerSimulator()
+g_simulator = AerSimulator() #a global simulator (why re-initiate each time?)
+
+
+
 
 def generate_colour_code_lut():
     NUM_QUBITS = 7
@@ -166,6 +169,10 @@ def simulate_circuit(qc,LUT):
         res = apply_correction(logical, LUT[for_lut])
     else:
         res = logical
+
+    """
+    uncomment this to enable degeneracy!
+    """
     #
     # if is_degenerate(np.array(res)):
     #     return (True,0)
@@ -193,8 +200,8 @@ if __name__ == "__main__":
     # --- Parameters ---
     n = 2500  # number of trials per p
     p_values = np.arange(0.0001, 0.2, 0.005)
-   # p_values = np.arange(0.001, 0.4, 0.01)
    # p_values = np.linspace(0.001, 0.5, 40)
+
 
     LUT = generate_colour_code_lut()
     results = []
@@ -207,6 +214,9 @@ if __name__ == "__main__":
     results.sort()  # sort by p-value
     ps, qbers, degen_ratio = zip(*results)
 
+    """
+    save what you want, where you want
+    """
     np.save("color.npy", qbers)
     #np.save("color_nondegen_comp.npy", np.array(qbers))
     #np.save("degen_ratios_color.npy", np.array(degen_ratio))

@@ -197,8 +197,12 @@ def simulate_circuit(qc, LUT):
         res = apply_correction(logical, LUT[for_Lut])
     else:
         res = logical
+    """
+    uncomment this to enable degeneracy!
+    """
     # if is_degenerate(res):
     #     return (True, False)
+
     if_error = any(res)
     return (False, if_error)
 
@@ -239,6 +243,10 @@ if __name__ == "__main__":
     ps, qbers, degen_ratios = zip(*results)
 
     import numpy as np
+
+    """
+    save it wherever
+    """
     np.save("surface.npy",qbers)
     #np.save('surface_nondegen_comp.npy', np.array(qbers))
     #np.save('degen_ratios_surface_2.npy', np.array(degen_ratios))

@@ -15,20 +15,35 @@ p_values_2 = np.linspace(0.001, 0.5, 40)
 
 
 def plot_qber_with_degeneracy(p_values, qber1, qber2, degeneracy_ratio,
-                              legend1, legend2, title, color1, color2):
+                              legend1 = "legend_1", legend2 = "legend_2", title = "title", color1 = "red", color2 = "blue"):
     """
     Plot two QBER curves and a degeneracy ratio on a secondary y-axis.
 
-    Parameters:
-        p_values (list): Depolarizing probabilities.
-        qber1 (list): QBER values for the nondegen curve.
-        qber2 (list): QBER values for the second curve.
-        degeneracy_ratio (list): Degeneracy ratio values.
-        legend1 (str): Label for the first QBER curve.
-        legend2 (str): Label for the second QBER curve.
-        title (str): Plot title.
-        color1 (str): Color for the first QBER curve.
-        color2 (str): Color for the second QBER curve.
+    Parameters
+    ----------
+    p_values : list or array-like
+        Depolarizing probabilities (x-axis values).
+    qber1 : list or array-like
+        QBER values for the first (non-degenerate) curve.
+    qber2 : list or array-like
+        QBER values for the second curve.
+    degeneracy_ratio : list or array-like
+        Degeneracy ratio values to plot on the secondary y-axis.
+    legend1 : str
+        Label for the first QBER curve.
+    legend2 : str
+        Label for the second QBER curve.
+    title : str
+        Title of the plot.
+    color1 : str
+        Color for the first QBER curve.
+    color2 : str
+        Color for the second QBER curve.
+
+    Returns
+    -------
+    None
+        Displays the plot with a secondary axis for degeneracy ratio.
     """
     fig, ax1 = plt.subplots(figsize=(6.5, 4.8))
 
@@ -55,17 +70,16 @@ def plot_qber_with_degeneracy(p_values, qber1, qber2, degeneracy_ratio,
 
 def multi_plot(*graphs, name=None, p_val=None, legend_names=None):
     """
+    Plot multiple QBER or error-rate curves on the same axes.
+
     Parameters
     ----------
     *graphs : array-like
         One or more sequences of y-values to plot.
-
     name : str, optional
         Title of the plot. If None, no title is displayed.
-
     p_val : array-like
         Sequence of x-values (e.g., depolarizing probabilities). Required.
-
     legend_names : list of str, optional
         Labels for the plotted graphs. Must match the number of graphs.
         Defaults to "Graph 1", "Graph 2", etc., if not provided.
@@ -103,7 +117,8 @@ def multi_plot(*graphs, name=None, p_val=None, legend_names=None):
         plt.title(name)
     plt.show()
 
-
+"""examples
+"""
 
 surface = np.load("surface.npy")
 rotated = np.load("rotated.npy")
@@ -122,12 +137,12 @@ multi_plot(surface,rotated,color, name="QBER For Demo", p_val= p_values, legend_
 # color_nondegen = np.load("color_nondegen_comp.npy")
 # color_degen = np.load("color_degen_comp.npy")
 # color_ratio = np.load("degen_ratios_color.npy")
-
-cmap = plt.get_cmap("tab20").colors
-
-
-# plot_qber_with_degeneracy(p_values_2,surface_nondegen, surface_degen,surface_ratio, "non-deg", "deg","lala",cmap[2],cmap[3])
-
-# plot_qber_with_degeneracy(p_values_2,rotated_nondegen, rotated_degen, rotated_ratio, "non-deg", "deg", "lala",cmap[0],cmap[1])
-
-# plot_qber_with_degeneracy(p_values_2,color_nondegen, color_degen, color_ratio, "le","la","lela", cmap[4],cmap[5])
+#
+# cmap = plt.get_cmap("tab20").colors
+#
+#
+# plot_qber_with_degeneracy(p_values_2,surface_nondegen, surface_degen,surface_ratio, "non-deg", "deg","surface",cmap[2],cmap[3])
+#
+# plot_qber_with_degeneracy(p_values_2,rotated_nondegen, rotated_degen, rotated_ratio, "non-deg", "deg", "rotated surface",cmap[0],cmap[1])
+#
+# plot_qber_with_degeneracy(p_values_2,color_nondegen, color_degen, color_ratio, "non-deg","deg","color", cmap[4],cmap[5])

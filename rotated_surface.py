@@ -7,6 +7,13 @@ from qiskit_aer import AerSimulator
 import matplotlib.pyplot as plt
 from my_color import depolarizing_error, apply_correction
 
+
+"""
+This is just 
+"""
+
+
+
 global_simulator = AerSimulator()
 
 def generate_rotated_surface_code_LUT():
@@ -175,7 +182,9 @@ def simulate_rotated_surface_code(p, LUT):
     else:
         corrected_logical = logical
 
-
+    """
+    uncomment this to enable degeneracy!
+    """
     # if is_degenerate(np.array(corrected_logical)):
     #     return (True,0)
 
@@ -194,10 +203,6 @@ def run_trials_for_p(p, n, LUT):
     avg_error = total_errors / n
     return (p, avg_error, avg_degen)
 
-
-    # logical_str = outcome_str[:9][::-1]
-    # z_stab_str  = outcome_str[10:14][::-1]
-    # x_stab_str  = outcome_str[15:][::-1]
 
 if __name__ == "__main__":
     import numpy as np
@@ -222,6 +227,9 @@ if __name__ == "__main__":
 
     results.sort(key=lambda x: x[0])
     ps, qbers, degen_ratio = zip(*results)
+    """
+    save what you want, where you want, just make sure your consistent
+    """
     np.save("rotated.npy", qbers)
     #np.save("rotated_nondegen_comp.npy", np.array(qbers))
     #np.save("degen_ratios_rotated.npy", np.array(degen_ratio))
