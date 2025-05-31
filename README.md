@@ -61,11 +61,11 @@ When you run them it may take a while as i do ALOT of runs (**n**), if you wish 
 
 Under the **main** heading, when the code is executed, the graphs should be displayed and the numerical outputs should be saved in a *.npy* file, once you run each file, each with its own *.npy* file, you can go to **plots.py** and run either of the functions with input parameter of the .npy files and some colors. The variables you want to save are highlighted in the code but they want are:
 
-**qbers** - array that stores the QBER values (indexed across probability)
+***qbers*** - array that stores the QBER values (indexed across probability)
 
-**degen_ratio** - Array that stores degeneracy ratios (0 when disabled, again, indexed across probability)
+***degen_ratio*** - Array that stores degeneracy ratios (0 when disabled, again, indexed across probability)
 
-If you change probability values (**p_values**) be sure to change it in **plots.py** as well.
+If you change probability values (***p_values***) be sure to change it in **plots.py** as well.
 
 I have tried to make this as simple and as customizable as possible, but as one can imagine, they're kind of a trade-off with eachother.
 
@@ -77,4 +77,8 @@ To enable **degenracy** just uncomment the code within the **simulate_circuit** 
 
 ## How a typical run should go
 
-1) run each file (view outputs
+Run test.py to understand everything (if you want) OR
+
+1. run each file my_color, my_surface and rotated_surface - each should have their own respective output plot as well
+3) save outputs from each file
+4) run a function from "plots.py" to visualise outputs
